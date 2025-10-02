@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trendify Store — Online Shop</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+  
+  :root{
+    --bg-color: #111827;
+    --accent: #facc15;
+    --card-bg: rgba(255,255,255,0.95);
+    --text-color: #f3f4f6;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    font-family:'Poppins', sans-serif;
+    background: url('https://images.unsplash.com/photo-1503264116251-35a269479413?auto=format&fit=crop&w=1600&q=80') no-repeat center center fixed;
+    background-size: cover;
+    color: var(--text-color);
+    line-height:1.6;
+  }
+
+  header{
+    background: rgba(17,24,39,0.9);
+    padding: 20px;
+    text-align: center;
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--accent);
+    text-shadow: 1px 1px 3px #000;
+  }
+
+  nav{
+    text-align:center;
+    margin:20px 0;
+  }
+  nav a{
+    text-decoration:none;
+    margin:0 15px;
+    color: var(--text-color);
+    font-weight:600;
+    font-size:1.1rem;
+    transition:0.3s;
+  }
+  nav a:hover{color: var(--accent);}
+
+  section{
+    padding:60px 20px;
+    backdrop-filter: blur(10px);
+  }
+
+  h2{
+    text-align:center;
+    font-size:2.5rem;
+    margin-bottom:40px;
+    color: var(--accent);
+    text-shadow:1px 1px 2px #000;
+  }
+
+  .products{
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px,1fr));
+    gap:30px;
+    justify-items:center;
+  }
+
+  .product-card{
+    background: var(--card-bg);
+    border-radius:20px;
+    overflow:hidden;
+    width:100%;
+    max-width:280px;
+    text-align:center;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .product-card:hover{
+    transform: translateY(-10px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+  }
+  .product-card img{
+    width:100%;
+    height:250px;
+    object-fit:cover;
+    border-bottom: 2px solid var(--accent);
+  }
+  .product-card h3{
+    margin:15px 0 5px;
+    color: #111827;
+  }
+  .product-card p{
+    color: var(--accent);
+    font-weight:700;
+    font-size:1.1rem;
+  }
+  .btn{
+    padding:12px 20px;
+    margin-bottom:15px;
+    border:none;
+    border-radius:12px;
+    background: var(--accent);
+    color:#111827;
+    font-weight:600;
+    cursor:pointer;
+    transition:0.3s;
+  }
+  .btn:hover{
+    background: #fcd34d;
+    transform: scale(1.05);
+  }
+
+  .product-details{
+    display:flex;
+    flex-wrap:wrap;
+    gap:50px;
+    background: var(--card-bg);
+    padding:30px;
+    border-radius:20px;
+    max-width:1000px;
+    margin: 0 auto 60px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  }
+  .product-image{
+    flex:1 1 300px;
+    text-align:center;
+  }
+  .product-image img{
+    max-width:100%;
+    border-radius:16px;
+  }
+  .product-info{
+    flex:1 1 300px;
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+    color:#111827;
+  }
+  .price{
+    font-size:1.6rem;
+    font-weight:700;
+    color: var(--accent);
+  }
+  .description{
+    color:#374151;
+  }
+  .quantity{
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .quantity input{
+    width:60px;
+    padding:6px;
+    text-align:center;
+    border-radius:6px;
+    border:1px solid #d1d5db;
+  }
+
+  form{
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+  }
+  input,textarea{
+    padding:12px;
+    border-radius:8px;
+    border:1px solid #d1d5db;
+    font-size:1rem;
+  }
+
+  footer{
+    text-align:center;
+    padding:24px;
+    color: var(--text-color);
+    background: rgba(17,24,39,0.8);
+    border-top: 1px solid var(--accent);
+  }
+
+  @media(max-width:768px){
+    .product-details{flex-direction:column;align-items:center;}
+    .quantity{justify-content:center;}
+  }
+</style>
+</head>
+<body>
+
+<header>Trendify Store</header>
+<nav>
+<a href="#products">Products</a>
+<a href="#details">Product Details</a>
+<a href="#contact">Contact</a>
+</nav>
+
+<!-- Products Section -->
+<section id="products">
+<h2>Our Products</h2>
+<div class="products">
+  <div class="product-card">
+    <img src="https://images.unsplash.com/photo-1595950659392-8cb1f528e1d2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400" alt="Stylish Sneakers">
+    <h3>Stylish Sneakers</h3>
+    <p>$79.99</p>
+    <button class="btn" onclick="showDetails('Stylish Sneakers','$79.99','High-quality trendy sneakers perfect for daily wear.','https://images.unsplash.com/photo-1595950659392-8cb1f528e1d2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400')">View Details</button>
+  </div>
+  <div class="product-card">
+    <img src="https://images.unsplash.com/photo-1512499617640-c2f9990151b5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400" alt="Elegant Watch">
+    <h3>Elegant Watch</h3>
+    <p>$149.99</p>
+    <button class="btn" onclick="showDetails('Elegant Watch','$149.99','Luxury wristwatch with precise movement and stylish design.','https://images.unsplash.com/photo-1512499617640-c2f9990151b5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400')">View Details</button>
+  </div>
+  <div class="product-card">
+    <img src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400" alt="Leather Bag">
+    <h3>Leather Bag</h3>
+    <p>$129.99</p>
+    <button class="btn" onclick="showDetails('Leather Bag','$129.99','Premium leather bag suitable for work and travel.','https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400')">View Details</button>
+  </div>
+  <div class="product-card">
+    <img src="https://images.unsplash.com/photo-1580894908361-0cbe3e36222d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400" alt="Wireless Earbuds">
+    <h3>Wireless Earbuds</h3>
+    <p>$59.99</p>
+    <button class="btn" onclick="showDetails('Wireless Earbuds','$59.99','High-quality sound earbuds with long battery life.','https://images.unsplash.com/photo-1580894908361-0cbe3e36222d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400')">View Details</button>
+  </div>
+</div>
+</section>
+
+<!-- Product Details Section -->
+<section id="details">
+<h2>Product Details</h2>
+<div class="product-details">
+  <div class="product-image">
+    <img id="detail-img" src="https://images.unsplash.com/photo-1595950659392-8cb1f528e1d2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400" alt="Product Image">
+  </div>
+  <div class="product-info">
+    <h2 id="detail-title">Stylish Sneakers</h
