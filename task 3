@@ -1,0 +1,162 @@
+task 3
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navigation Menu Example</title>
+    <style>
+        /* Reset some default browser styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* General body styling */
+        body {
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f9f9f9;
+            scroll-behavior: smooth;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #4a90e2, #0072ff);
+            color: white;
+            text-align: center;
+            padding: 1.5rem 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin-bottom: 0.8rem;
+            font-size: 1.8rem;
+        }
+
+        /* Navigation Bar */
+        .main-nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .main-nav a {
+            text-decoration: none;
+            color: white;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            transition: all 0.3s ease;
+            border-radius: 5px;
+        }
+
+        .main-nav a:hover,
+        .main-nav a:focus {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Content Sections */
+        .content-section {
+            max-width: 900px;
+            margin: 4rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+            animation: fadeIn 1s ease;
+        }
+
+        .content-section h2 {
+            margin-bottom: 1rem;
+            color: #0072ff;
+            font-size: 1.6rem;
+        }
+
+        .content-section p,
+        .content-section ul {
+            margin-bottom: 1rem;
+        }
+
+        /* Lists */
+        .content-section ul {
+            padding-left: 1.5rem;
+        }
+
+        /* Footer */
+        footer {
+            background: #222;
+            color: #ccc;
+            text-align: center;
+            padding: 1rem;
+            margin-top: 3rem;
+            font-size: 0.9rem;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>🌐 Website Navigation Demo</h1>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home" class="content-section">
+            <h2>🏠 Home Section</h2>
+            <p>Welcome to our website! This is the main landing page. Click on the links above to navigate.</p>
+            <p>The <code>href="#home"</code> in the navigation menu links directly to this section because its <code>id</code> is also <code>home</code>.</p>
+        </section>
+
+        <section id="about" class="content-section">
+            <h2>ℹ About Us</h2>
+            <p>Learn more about our mission and history. We focus on clarity and user-friendliness in all our projects.</p>
+            <p>The use of <code>id</code> attributes is crucial for creating smooth in-page navigation (often called anchor links).</p>
+        </section>
+
+        <section id="services" class="content-section">
+            <h2>🛠 Our Services</h2>
+            <p>We offer web development and design services, focusing on modern HTML and CSS techniques.</p>
+            <ul>
+                <li>Web Design</li>
+                <li>Front-End Development (HTML, CSS, JavaScript)</li>
+                <li>Consulting</li>
+            </ul>
+        </section>
+
+        <section id="contact" class="content-section">
+            <h2>📞 Contact Information</h2>
+            <p>Get in touch with us. We're always ready to start a new project!</p>
+            <p>Email: <a href="seralizdavid">seralizdavid</a></p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Navigation Demo. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>
+```
