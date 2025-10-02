@@ -1,0 +1,176 @@
+task 5
+
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Extraordinary Blog</title>
+  <style>
+    :root {
+      --primary: #6d28d9;  /* purple */
+      --secondary: #f472b6;/* pink */
+      --accent: #0ea5e9;   /* sky */
+      --text-dark: #111827;
+      --text-light: #f9fafb;
+      --bg-light: #f3f4f6;
+      --radius: 14px;
+      --shadow: 0 6px 14px rgba(0,0,0,0.1);
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Poppins',sans-serif;background:var(--bg-light);color:var(--text-dark);}
+    header{
+      background: linear-gradient(135deg,var(--primary),var(--secondary));
+      color: var(--text-light);
+      text-align:center;
+      padding: 40px 20px;
+      position: relative;
+    }
+    header h1{font-size:2.2rem;margin-bottom:10px;}
+    header p{font-size:1.1rem;opacity:.9;}
+    header img{
+      max-width:120px;border-radius:50%;border:4px solid #fff;
+      box-shadow:var(--shadow);margin-top:15px;
+    }
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr 380px;
+      gap:24px;
+      padding:30px;
+    }
+    .card{
+      background:#fff;
+      border-radius:var(--radius);
+      padding:20px;
+      box-shadow:var(--shadow);
+    }
+    /* Post List Area */
+    #posts .post-card{
+      background:linear-gradient(135deg,#e0f2fe,#f0f9ff);
+      border-radius:var(--radius);
+      padding:16px;
+      margin-bottom:16px;
+      transition:.3s;
+      cursor:pointer;
+    }
+    #posts .post-card:hover{
+      transform:translateY(-4px);
+      box-shadow:0 8px 16px rgba(0,0,0,.12);
+    }
+    #posts h3{margin:0 0 6px;color:var(--primary);}
+    #posts small{color:#555;}
+    /* Editor Area */
+    input,textarea{
+      width:100%;padding:12px;margin-top:8px;margin-bottom:14px;
+      border:1px solid #d1d5db;border-radius:var(--radius);
+      font-size:.95rem;
+    }
+    input:focus,textarea:focus{outline:none;border-color:var(--accent);
+      box-shadow:0 0 0 2px rgba(14,165,233,.25);}
+    button{
+      padding:10px 16px;border:none;border-radius:var(--radius);
+      font-weight:600;cursor:pointer;transition:.2s;
+    }
+    .btn-primary{background:var(--primary);color:#fff;}
+    .btn-primary:hover{background:#5b21b6;}
+    .btn-accent{background:var(--accent);color:#fff;}
+    .btn-accent:hover{background:#0284c7;}
+    .btn-danger{background:#ef4444;color:#fff;}
+    .btn-danger:hover{background:#dc2626;}
+    .actions{display:flex;gap:12px;flex-wrap:wrap}
+    /* Responsive */
+    @media(max-width:900px){
+      .grid{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🌟 Extraordinary Blog</h1>
+    <p>Write. Share. Inspire.</p>
+    <img src="https://picsum.photos/200" alt="Blog Logo">
+  </header>
+
+  <div class="grid">
+    <!-- Post List -->
+    <div class="card">
+      <h2 style="margin-bottom:10px;color:var(--accent)">📚 All Posts</h2>
+      <input id="search" placeholder="🔍 Search posts..." />
+      <div id="posts"></div>
+    </div>
+
+    <!-- Editor -->
+    <div class="card">
+      <h2 style="margin-bottom:10px;color:var(--secondary)">✍ Create / Edit</h2>
+      <input id="title" placeholder="Post title" />
+      <input id="tags" placeholder="Tags (comma separated)" />
+      <textarea id="content" rows="8" placeholder="Write your story..."></textarea>
+      <div class="actions">
+        <button class="btn-primary" id="saveBtn">💾 Save</button>
+        <button class="btn-accent" id="publishBtn">🚀 Publish</button>
+        <button class="btn-danger" id="deleteBtn">🗑 Delete</button>
+      </div>
+    </div>
+  </div>
+
+<script>
+(function(){
+  const LS_KEY='extraordinary_blog';
+  let posts=JSON.parse(localStorage.getItem(LS_KEY)||'[]');
+  let editingId=null;
+  const el=id=>document.getElementById(id);
+
+  function save(){localStorage.setItem(LS_KEY,JSON.stringify(posts));}
+  function escape(s){return s.replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
+  function renderList(q=''){
+    const container=el('posts');container.innerHTML='';
+    const filtered=posts.filter(p=>(p.title+p.content+p.tags).toLowerCase().includes(q.toLowerCase()))
+      .sort((a,b)=>new Date(b.updated)-new Date(a.updated));
+    if(!filtered.length){container.innerHTML='<p style="color:#888">No posts found</p>';return;}
+    filtered.forEach(p=>{
+      const card=document.createElement('div');
+      card.className='post-card';
+      card.innerHTML=`<h3>${escape(p.title||'Untitled')}</h3>
+      <small>${new Date(p.updated).toLocaleString()} • ${p.published?'Published':'Draft'}</small>
+      <p>${escape(p.content.slice(0,100))}${p.content.length>100?'…':''}</p>`;
+      card.onclick=()=>loadPost(p.id);
+      container.appendChild(card);
+    });
+  }
+  function newPost(){editingId=null;el('title').value='';el('tags').value='';el('content').value='';el('deleteBtn').style.display='none';}
+  function loadPost(id){
+    const p=posts.find(x=>x.id===id);if(!p)return;
+    editingId=p.id;el('title').value=p.title;el('tags').value=p.tags;el('content').value=p.content;
+    el('deleteBtn').style.display='inline-block';
+  }
+  function savePost(pub=false){
+    const title=el('title').value.trim(),tags=el('tags').value.trim(),content=el('content').value.trim();
+    if(!title&&!content){alert('Please write something!');return;}
+    if(editingId){
+      const p=posts.find(x=>x.id===editingId);
+      p.title=title;p.tags=tags;p.content=content;p.updated=new Date().toISOString();
+      if(pub)p.published=true;
+    } else {
+      const id='p_'+Math.random().toString(36).slice(2,9);
+      posts.push({id,title,tags,content,published:pub,created:new Date().toISOString(),updated:new Date().toISOString()});
+      editingId=id;el('deleteBtn').style.display='inline-block';
+    }
+    save();renderList(el('search').value);
+    alert('Post saved '+(pub?'& published!':''));
+  }
+  function deletePost(){
+    if(!editingId)return;
+    if(confirm('Delete this post?')){
+      posts=posts.filter(p=>p.id!==editingId);save();newPost();renderList(el('search').value);
+    }
+  }
+  el('saveBtn').onclick=()=>savePost(false);
+  el('publishBtn').onclick=()=>savePost(true);
+  el('deleteBtn').onclick=deletePost;
+  el('search').oninput=e=>renderList(e.target.value);
+  renderList();newPost();
+})();
+</script>
+</body>
+</html>
