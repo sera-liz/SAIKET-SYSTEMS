@@ -1,0 +1,171 @@
+task 6
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Web App with Calendar + Deadlines</title>
+  <style>
+    body { 
+      font-family: "Segoe UI", sans-serif; 
+      margin: 0; padding: 0; background: #f9fafb; color: #111;
+      display: flex; flex-direction: column; height: 100vh;
+    }
+    header {
+      background: linear-gradient(135deg, #2563eb, #9333ea);
+      color: white; padding: 20px; text-align: center;
+    }
+    main {
+      display: flex; flex: 1; overflow: hidden;
+    }
+    .sidebar {
+      width: 30%; background: #e0f2fe; padding: 20px;
+      border-right: 3px solid #93c5fd;
+    }
+    .content {
+      flex: 1; padding: 20px; overflow-y: auto;
+    }
+    h2 { color: #2563eb; margin-top: 0; }
+    .calendar { width: 100%; border-collapse: collapse; text-align: center; }
+    .calendar th { background: #2563eb; color: white; padding: 8px; }
+    .calendar td { padding: 10px; border: 1px solid #ddd; cursor: pointer; transition: 0.2s; }
+    .calendar td:hover { background: #93c5fd; color: white; font-weight: bold; }
+    .today { background: #9333ea; color: white; border-radius: 50%; }
+    input, button {
+      padding: 10px; margin: 8px 0; border-radius: 8px; border: 1px solid #ddd;
+      width: 100%; font-size: 1rem;
+    }
+    button {
+      background: #2563eb; color: white; font-weight: bold;
+      cursor: pointer; transition: 0.2s;
+    }
+    button:hover { background: #1d4ed8; }
+    .error { color: red; font-size: 0.9rem; }
+    ul { list-style: none; padding: 0; }
+    li {
+      background: #fef3c7; margin: 5px 0; padding: 8px;
+      border-radius: 6px; display: flex; justify-content: space-between;
+      align-items: center; flex-wrap: wrap;
+    }
+    .task-text { font-weight: bold; color: #111; }
+    .deadline { font-size: 0.9rem; color: #9333ea; margin-left: 8px; }
+    .time { font-size: 1.2rem; margin: 10px 0; font-weight: bold; color: #9333ea; }
+    .delete-btn {
+      background:#ef4444; color:white; border:none;
+      padding:5px 8px; border-radius:6px; cursor:pointer;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>✨ Interactive Web App</h1>
+    <p>Calendar + Live Clock + Form + To-Do List with Deadlines</p>
+  </header>
+
+  <main>
+    <!-- Sidebar Calendar -->
+    <div class="sidebar">
+      <h2>📅 Calendar</h2>
+      <div id="calendarContainer"></div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+      <h2>1. Live Clock</h2>
+      <div class="time" id="clock"></div>
+
+      <h2>2. Interactive Form</h2>
+      <input type="text" id="nameInput" placeholder="Enter your name" />
+      <p class="error" id="nameError"></p>
+      <button id="greetBtn">Greet Me</button>
+      <p id="greeting"></p>
+
+      <h2>3. Dynamic To-Do List</h2>
+      <input type="text" id="taskInput" placeholder="Enter a task" />
+      <input type="date" id="deadlineInput" />
+      <button id="addTaskBtn">Add Task</button>
+      <ul id="taskList"></ul>
+    </div>
+  </main>
+
+  <script>
+    // Live Clock
+    function updateClock() {
+      const now = new Date();
+      document.getElementById("clock").textContent = now.toLocaleTimeString();
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Form Interaction
+    const nameInput = document.getElementById("nameInput");
+    const nameError = document.getElementById("nameError");
+    const greeting = document.getElementById("greeting");
+
+    document.getElementById("greetBtn").addEventListener("click", () => {
+      const name = nameInput.value.trim();
+      if (name.length < 3) {
+        nameError.textContent = "Name must be at least 3 characters.";
+        greeting.textContent = "";
+      } else {
+        nameError.textContent = "";
+        greeting.textContent = 👋 Hello, ${name}! Welcome to the interactive app.;
+      }
+    });
+
+    // To-Do List with Deadline
+    const taskInput = document.getElementById("taskInput");
+    const deadlineInput = document.getElementById("deadlineInput");
+    const taskList = document.getElementById("taskList");
+
+    document.getElementById("addTaskBtn").addEventListener("click", () => {
+      const task = taskInput.value.trim();
+      const deadline = deadlineInput.value;
+      if (!task) return;
+
+      const li = document.createElement("li");
+      li.innerHTML = `
+        <span class="task-text">${task}</span>
+        <span class="deadline">📅 ${deadline ? deadline : "No deadline"}</span>
+        <button class="delete-btn">X</button>
+      `;
+      li.querySelector(".delete-btn").addEventListener("click", () => li.remove());
+      taskList.appendChild(li);
+
+      taskInput.value = "";
+      deadlineInput.value = "";
+    });
+
+    // Calendar
+    function generateCalendar() {
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = now.getMonth();
+      const today = now.getDate();
+
+      const firstDay = new Date(year, month, 1).getDay();
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+      let calendarHTML = "<table class='calendar'><tr>";
+      const days = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+      days.forEach(day => calendarHTML += <th>${day}</th>);
+      calendarHTML += "</tr><tr>";
+
+      for (let i = 0; i < firstDay; i++) calendarHTML += "<td></td>";
+
+      for (let day = 1; day <= daysInMonth; day++) {
+        if ((firstDay + day - 1) % 7 === 0) calendarHTML += "</tr><tr>";
+        const isToday = day === today ? "today" : "";
+        calendarHTML += <td class="${isToday}">${day}</td>;
+      }
+
+      calendarHTML += "</tr></table>";
+      document.getElementById("calendarContainer").innerHTML = calendarHTML;
+    }
+    generateCalendar();
+  </script>
+</body>
+</html>
